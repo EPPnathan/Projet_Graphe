@@ -13,8 +13,7 @@ if __name__ == '__main__':
     choix_valid = False
 
     while temp:
-        # Récupérer uniquement les fichiers et les trier
-        fichiers = sorted([f for f in dossier.iterdir() if f.is_file()])
+        fichiers = [f for f in dossier.iterdir() if f.is_file()]
 
         if not fichiers:
             print("Aucun fichier dans le répertoire.")
@@ -26,7 +25,6 @@ if __name__ == '__main__':
             print("0 - Arrêt du programme \n")
             choix = input("Entrez le numéro du fichier à choisir : ")
 
-            # Vérifier que l'entrée est valide
             if choix.isdigit():
                 choix = int(choix)
                 if choix == 0:
@@ -49,7 +47,6 @@ if __name__ == '__main__':
         print_matrice(G)
 
         Matrice_adjacente = creation_matrice_adjacente(G)
-        #print_matrice(Matrice_adjacente)
 
         print("Execution de l'algorithme de Floyd\n")
         matrice_floyd = algo_floyd(G)
@@ -62,9 +59,9 @@ if __name__ == '__main__':
         print_matrice(matrice_floyd_P)
 
         if detection_circuit_absorbant(matrice_floyd_L):
-            print("Circuit absorbant detecté dans ce graphe")
+            print("\nCircuit absorbant detecté dans ce graphe")
         else:
-            print("Aucun circuit absorbent dans le graphe")
+            print("\nAucun circuit absorbent dans le graphe\n")
             cont = True
 
             recommencer = input("Chemin ? (oui ou non)")

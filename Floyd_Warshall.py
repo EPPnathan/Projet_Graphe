@@ -1,6 +1,6 @@
 def algo_floyd(matrice_adjacente):
     n = len(matrice_adjacente)
-    L = [[999]*n for i in range(n)]
+    L = [[float('inf')]*n for i in range(n)]
     P = [[0]*n for i in range(n)]
     for i in range(n):
         for j in range(n):
@@ -11,7 +11,7 @@ def algo_floyd(matrice_adjacente):
                 L[i][j] = matrice_adjacente[i][j]
                 P[i][j] = i
             else:
-                L[i][j] = 999
+                L[i][j] = float('inf')
                 P[i][j] = i
 
     for k in range(n):
@@ -23,15 +23,29 @@ def algo_floyd(matrice_adjacente):
     return [L,P]
 
 
-def chemin_plus_court(L,P, dep, ar):
+def chemin_plus_court(L, P, dep, ar):
     n = len(P)
-    i = P[dep][ar]
-    temp = 0
-    chemin = str(ar)
-    while (i != dep) and (temp <= n):
-        chemin = str(i) + chemin
-        i = P[dep][i]
-        temp += 1
-    chemin = str(i) + chemin
-    print("Le chemin le plus court entre",dep,"et", ar, "est de", L[dep][ar], "saut qui est :", chemin)
-    return [chemin,L[dep][ar]]
+    if L[dep][ar] == float('inf'):
+        print(f"Pas de chemin entre {dep} et {ar}")
+        return [None, float('inf')]
+
+    chemin = []
+    current = ar
+
+    while current != -1:
+        chemin.append(current)
+        if current == dep:
+            break
+        current = P[dep][current]
+
+    chemin.reverse()
+    chemin_str = " → ".join(map(str, chemin))
+    distance = L[dep][ar]
+
+    if distance == float('inf'):
+        distance_str = "∞"
+    else:
+        distance_str = str(distance)
+
+    print(f"Le chemin le plus court entre {dep} et {ar} est de longueur {distance_str} : {chemin_str}")
+    return [chemin_str, distance]
